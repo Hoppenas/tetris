@@ -1,11 +1,15 @@
 import resetPreviousShapePosition from './ResetPreviousShapePosition';
 import checkPosition from './CheckPosition';
-import shapeT from './Shapes';
 
 const moveShape = ( moveDirection, currentTable, currentShape, setCurrentTable, setCurrentShape ) => {
-    // find new position
-    const tableAfterMove = [...currentTable];
-    const shapeAfterMove = [...currentShape];
+    const tableAfterMove = JSON.parse(JSON.stringify(currentTable));
+    const shapeAfterMove = JSON.parse(JSON.stringify(currentShape));
+
+    const moveToNewPosition = () =>{
+        for (let i=0; i<shapeAfterMove.length; i++) {
+            tableAfterMove[shapeAfterMove[i][0]][shapeAfterMove[i][1]] = 1
+        }
+    }
 
     //move down
     if (moveDirection==="down" && checkPosition(shapeAfterMove)[0]<19) {
@@ -13,15 +17,7 @@ const moveShape = ( moveDirection, currentTable, currentShape, setCurrentTable, 
         for (let i=0; i<shapeAfterMove.length; i++) {
             shapeAfterMove[i][0] = shapeAfterMove[i][0]+1; 
         }
-        for (let i=0; i<shapeAfterMove.length; i++) {
-            tableAfterMove[shapeAfterMove[i][0]][shapeAfterMove[i][1]] = 1
-        }
-        console.log("currentShape")
-        console.log(currentShape)
-        console.log("shapeAfterMove")
-        console.log(shapeAfterMove)
-        setCurrentShape(shapeAfterMove);
-        setCurrentTable(tableAfterMove);
+        moveToNewPosition();
     }
 
     //move left
@@ -31,26 +27,21 @@ const moveShape = ( moveDirection, currentTable, currentShape, setCurrentTable, 
         for (let i=0; i<shapeAfterMove.length; i++) {
             shapeAfterMove[i][1] = shapeAfterMove[i][1]-1; 
         }
-
-        for (let i=0; i<shapeAfterMove.length; i++) {
-            tableAfterMove[shapeAfterMove[i][0]][shapeAfterMove[i][1]] = 1
-        }
-        setCurrentShape(shapeAfterMove);
-        setCurrentTable(tableAfterMove); 
+        moveToNewPosition();
     }
+
+    //move right
     if (moveDirection==="right" && checkPosition(shapeAfterMove)[2]<9) {
         resetPreviousShapePosition(tableAfterMove, shapeAfterMove, setCurrentTable);
 
         for (let i=0; i<shapeAfterMove.length; i++) {
             shapeAfterMove[i][1] = shapeAfterMove[i][1]+1; 
         }
-
-        for (let i=0; i<shapeAfterMove.length; i++) {
-            tableAfterMove[shapeAfterMove[i][0]][shapeAfterMove[i][1]] = 1
-        }
-        setCurrentShape(shapeAfterMove);
-        setCurrentTable(tableAfterMove);         
+        moveToNewPosition();     
     }
+
+    setCurrentShape(shapeAfterMove);
+    setCurrentTable(tableAfterMove);
 
     if (checkPosition(shapeAfterMove)[0] === 19) {
         console.log("end of field")

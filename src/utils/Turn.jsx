@@ -2,7 +2,7 @@ import resetPreviousShapePosition from "./ResetPreviousShapePosition";
 
 const turn = (currentShape, setCurrentShape, currentTable, setCurrentTable ) => {
 if(currentShape[0][1] > 0 && currentShape[0][1] < 9 && currentShape[0][0] <19) {
-    const tableAfterMove = [...currentTable];
+    const tableAfterMove = JSON.parse(JSON.stringify(currentTable));
     const positionAfterTurn = [];
     positionAfterTurn.push(currentShape[0]);
     

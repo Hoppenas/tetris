@@ -8,14 +8,25 @@ import checkPosition from './utils/CheckPosition';
 
 
 function App() {
-  const [ currentShape, setCurrentShape ] = useState ([]);
-  const [ currentTable, setCurrentTable ] = useState (Array(20).fill().map(()=>Array(10).fill(0)))
-  
+  const [ currentShape, setCurrentShape ] = useState([]);
+  const [ currentTable, setCurrentTable ] = useState(Array(20).fill().map(()=>Array(10).fill(0)))
 
-const checkShapeT = () =>{
-  console.log("checkShapeT")
-  console.log(shapeT())
-}
+document.onkeydown = function (event) {
+  switch (event.keyCode) {
+     case 37:
+        moveShape("left", currentTable, currentShape, setCurrentTable, setCurrentShape);
+        break;
+     case 38:
+        turn(currentShape, setCurrentShape, currentTable, setCurrentTable);
+        break;
+     case 39:
+        moveShape("right", currentTable, currentShape, setCurrentTable, setCurrentShape);
+        break;
+     case 40:
+        moveShape("down", currentTable, currentShape, setCurrentTable, setCurrentShape);
+        break;
+  }
+};
 
   return (
     <div className="App">
@@ -31,7 +42,6 @@ const checkShapeT = () =>{
       <button onClick={() => moveShape("left", currentTable, currentShape, setCurrentTable, setCurrentShape)}>left</button>
       <button onClick={() => moveShape("right", currentTable, currentShape, setCurrentTable, setCurrentShape)}>right</button>
       <button onClick={() => turn(currentShape, setCurrentShape, currentTable, setCurrentTable)}>turn</button>
-      <button onClick={() => checkShapeT()}>check shapeT</button>
     </div>
   );
 }
