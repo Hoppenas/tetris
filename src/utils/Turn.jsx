@@ -1,7 +1,7 @@
 import resetPreviousShapePosition from "./ResetPreviousShapePosition";
 
 const turn = (currentShape, setCurrentShape, currentTable, setCurrentTable ) => {
-if(currentShape[0][1] > 0 && currentShape[0][1] < 9 && currentShape[0][0] <19) {
+if(currentShape[0][1] > 0 && currentShape[0][1] < 9 && currentShape[0][0] <19 && currentShape[0][0] !== 0) {
     const tableAfterMove = JSON.parse(JSON.stringify(currentTable));
     const positionAfterTurn = [];
     positionAfterTurn.push(currentShape[0]);
@@ -19,18 +19,26 @@ if(currentShape[0][1] > 0 && currentShape[0][1] < 9 && currentShape[0][0] <19) {
         positionAfterTurn.push([x3, y3]);
     }
 
-    //reset previos position
-    resetPreviousShapePosition(tableAfterMove, currentShape, setCurrentTable)
+    let canTurn = true;
+    resetPreviousShapePosition(tableAfterMove, currentShape);
+    for (let i = 1; i<positionAfterTurn.length; i++) {
+        if (tableAfterMove[positionAfterTurn[i][0]][positionAfterTurn[i][1]] !== 0) {
+            canTurn = false;
+        }
+    }
     
-    //set new position
-    setCurrentShape(positionAfterTurn);
+    if (canTurn) {
+        resetPreviousShapePosition(tableAfterMove, currentShape);    
+        //activate turn
+        for (let i=0; i<positionAfterTurn.length; i++) {
+            tableAfterMove[positionAfterTurn[i][0]][positionAfterTurn[i][1]] = 1
+        }
+        setCurrentShape(positionAfterTurn);
+        setCurrentTable(tableAfterMove);
 
-    //activate turn
-    for (let i=0; i<positionAfterTurn.length; i++) {
-        tableAfterMove[positionAfterTurn[i][0]][positionAfterTurn[i][1]] = 1
     }
-    setCurrentTable(tableAfterMove);
-    }
+    } 
+    
 }
 
   export default turn;

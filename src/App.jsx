@@ -1,32 +1,31 @@
 import './App.css';
-import react, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import turn from "./utils/Turn";
 import moveShape from "./utils/MoveShape";
-import shapeT from "./utils/Shapes";
 import AddShape from "./utils/AddShape";
-import checkPosition from './utils/CheckPosition';
-
 
 function App() {
   const [ currentShape, setCurrentShape ] = useState([]);
   const [ currentTable, setCurrentTable ] = useState(Array(20).fill().map(()=>Array(10).fill(0)))
 
-document.onkeydown = function (event) {
-  switch (event.keyCode) {
-     case 37:
-        moveShape("left", currentTable, currentShape, setCurrentTable, setCurrentShape);
-        break;
-     case 38:
-        turn(currentShape, setCurrentShape, currentTable, setCurrentTable);
-        break;
-     case 39:
-        moveShape("right", currentTable, currentShape, setCurrentTable, setCurrentShape);
-        break;
-     case 40:
-        moveShape("down", currentTable, currentShape, setCurrentTable, setCurrentShape);
-        break;
-  }
-};
+  document.onkeydown = function (event) {
+    switch (event.key) {
+      case "ArrowLeft":
+          moveShape("left", currentTable, currentShape, setCurrentTable, setCurrentShape);
+          break;
+      case "ArrowUp":
+          turn(currentShape, setCurrentShape, currentTable, setCurrentTable);
+          break;
+      case "ArrowRight":
+          moveShape("right", currentTable, currentShape, setCurrentTable, setCurrentShape);
+          break;
+      case "ArrowDown":
+          moveShape("down", currentTable, currentShape, setCurrentTable, setCurrentShape);
+          break;
+      default:
+          break;
+    }
+  };
 
   return (
     <div className="App">
